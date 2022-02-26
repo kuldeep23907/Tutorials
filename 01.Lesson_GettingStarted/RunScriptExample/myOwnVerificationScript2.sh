@@ -1,8 +1,8 @@
 # format: <relative/path/to/solidity/file>:<contrac_name> --verify <contract_name>:<relative/path/to/spec/file>
 
-certoraRun BankLesson1/Bank.sol:Bank --verify Bank:BankLesson1/IntegrityOfDeposit.spec \
-  --solc ~/solc/0.7.6/solc-macos \
-  --rule integrityOfDeposit \
+certoraRun BankLesson1/Bank.sol:Bank --verify Bank:BankLesson1/Parametric.spec \
+  --solc ~/solc/0.7.0/solc-macos \
+  --rule validityOfTotalFundsWithVars \
   --msg "$1"
 
 # At the end of each line a backsalsh (\) is used for line continuation - to split overly long lines.

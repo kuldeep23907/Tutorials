@@ -1,9 +1,8 @@
 # format: <relative/path/to/solidity/file>:<contrac_name> --verify <contract_name>:<relative/path/to/spec/file>
 
-certoraRun BankLesson1/Bank.sol:Bank --verify Bank:BankLesson1/IntegrityOfDeposit.spec \
-  --solc ~/solc/0.7.6/solc-macos \
-  --rule integrityOfDeposit \
-  --msg "$1"
+certoraRun BankLesson1/Bank.sol:Bank --verify Bank:BankLesson1/TotalGreaterThanUser.spec \
+  --solc ~/solc/0.7.5/solc-macos \
+  --msg "My first Certora shell script"
 
 # At the end of each line a backsalsh (\) is used for line continuation - to split overly long lines.
 # more on backslash before new line here: https://superuser.com/questions/794963/in-a-linux-shell-why-does-backslash-newline-not-introduce-whitespace#:~:text=The%20Backslash%2Dnewline%20is%20used,purposes%20of%20executing%20the%20script.
