@@ -3,7 +3,6 @@ pragma solidity ^0.8.7;
 import "./IMeetingScheduler.sol";
 
 contract MeetingScheduler is IMeetingScheduler {
-
     mapping(uint256 => ScheduledMeeting) private meetings;
 
     function getStateById(uint256 meetingId)
@@ -93,27 +92,32 @@ contract MeetingScheduler is IMeetingScheduler {
 
     function cancelMeeting(uint256 meetingId) external override {
         ScheduledMeeting memory scheduledMeeting = meetings[meetingId];
-        require(msg.sender == scheduledMeeting.organizer,
-                "only the organizer of a meeting can cancel it"
-        );
         require(
-            scheduledMeeting.status == MeetingStatus.STARTED,
-            "can't end a meeting if not started"
+            msg.sender == scheduledMeeting.organizer,
+            "only the organizer of a meeting can cancel it"
         );
-        meetings[meetingId].status = MeetingStatus.ENDED;
-    }
-
-        function endMeeting(uint256 meetingId) external override {
-        ScheduledMeeting memory scheduledMeeting = meetings[meetingId];
+        // @note correct state is PENDING
         require(
             scheduledMeeting.status == MeetingStatus.PENDING,
+            "can't end a meeting if not started"
+        );
+        // @note correct state is CANCELLED
+        meetings[meetingId].status = MeetingStatus.CANCELLED;
+    }
+
+    function endMeeting(uint256 meetingId) external override {
+        ScheduledMeeting memory scheduledMeeting = meetings[meetingId];
+        // @note meeting can not end if not STARTED
+        require(
+            scheduledMeeting.status == MeetingStatus.STARTED,
             "meetings can be cancelled only if it's currently pending"
         );
         require(
             block.timestamp >= scheduledMeeting.endTime,
             "meeting cannot be ended unless its end time passed"
         );
-        meetings[meetingId].status = MeetingStatus.CANCELLED;
+        // @note correct state is ENDED
+        meetings[meetingId].status = MeetingStatus.ENDED;
     }
 
     function joinMeeting(uint256 meetingId) external override {

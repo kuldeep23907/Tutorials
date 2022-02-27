@@ -3,7 +3,6 @@ pragma solidity ^0.8.7;
 import "./IMeetingScheduler.sol";
 
 contract MeetingScheduler is IMeetingScheduler {
-
     mapping(uint256 => ScheduledMeeting) private meetings;
 
     function getStateById(uint256 meetingId)
@@ -80,6 +79,11 @@ contract MeetingScheduler is IMeetingScheduler {
             scheduledMeeting.status == MeetingStatus.PENDING,
             "can't start a meeting if it isn't pending"
         );
+        // @note current timestamo should be more than start time
+        require(
+            block.timestamp > scheduledMeeting.startTime,
+            "can't start a meeting after its end time"
+        );
         require(
             block.timestamp < scheduledMeeting.endTime,
             "can't start a meeting after its end time"
@@ -89,8 +93,9 @@ contract MeetingScheduler is IMeetingScheduler {
 
     function cancelMeeting(uint256 meetingId) external override {
         ScheduledMeeting memory scheduledMeeting = meetings[meetingId];
-        require(msg.sender == scheduledMeeting.organizer,
-                "only the organizer of a meeting can cancel it"
+        require(
+            msg.sender == scheduledMeeting.organizer,
+            "only the organizer of a meeting can cancel it"
         );
         require(
             scheduledMeeting.status == MeetingStatus.PENDING,
