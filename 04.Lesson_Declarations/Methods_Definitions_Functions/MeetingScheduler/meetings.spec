@@ -40,6 +40,11 @@ methods {
 
 }
 
+definition meetingPendingState(uint256 meetingId) returns bool = getStartTimeById(meetingId) != 0 && getStartTimeById(meetingId) < getEndTimeById(meetingId) && getStateById(meetingId) == 1 && getNumOfParticipents(meetingId) == 0 && getOrganizer(meetingId) != 0;
+definition meetingStartedState(uint256 meetingId, env e) returns bool = getStartTimeById(meetingId) <= e.block.timestamp && getEndTimeById(meetingId) > getStartTimeById(meetingId) && getStateById(meetingId) == 2 && getOrganizer(meetingId) != 0;
+definition meetingEndedState(uint256 meetingId, env e) returns bool = getStartTimeById(meetingId) < e.block.timestamp && getEndTimeById(meetingId) <= e.block.timestamp && getEndTimeById(meetingId) > getStartTimeById(meetingId) && getStateById(meetingId) == 3 && getOrganizer(meetingId) != 0;
+definition meetingCancelledState(uint256 meetingId) returns bool = getStartTimeById(meetingId) != 0 && getStartTimeById(meetingId) < getEndTimeById(meetingId) && getStateById(meetingId) == 4 && getNumOfParticipents(meetingId) == 0 && getOrganizer(meetingId) != 0;
+
 /*  Representing enums
 
     enums are supported by the Certora Verification Language (CVL), 
