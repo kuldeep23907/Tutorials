@@ -26,6 +26,25 @@ invariant balanceRatios(address account1, address account2)
         (( balanceOf(account1) + balanceOf(account2) == 0 ) =>
             totalSupply() + balanceOf(account1) >= balanceOf(account2) )
 
+rule MethodsVacuityCheck(method f) {
+	env e; calldataarg args;
+	f(e, args);
+	assert false, "this method should have a non reverting path";
+}
+
+rule checkTwoBalancesGreaterThanSingle(address account1, address account2) {
+    assert balanceOf(account1) + balanceOf(account2) < balanceOf(account1) => false;
+}
+
+rule checkTwoBalancesGreaterThanSingleProb(address account1, address account2) {
+    assert balanceOf(account1) + balanceOf(account2) <= balanceOf(account1) + balanceOf(account2);
+}
+
+rule checkBalanceRatios(address account1, address account2) {
+    assert totalSupply() == balanceOf(account1) + balanceOf(account2) =>
+        (( balanceOf(account1) + balanceOf(account2) == 0 ) =>
+            totalSupply() + balanceOf(account1) >= balanceOf(account2) );
+}
 /* 
  * Try to think about how we can check if this rule is a tautology.
  * It is not as simple as copying the assert to a rule.

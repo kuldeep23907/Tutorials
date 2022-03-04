@@ -184,7 +184,7 @@ contract ERC20 is IERC20, IERC20Metadata {
         require(
             currentAllowance >= amount,
             "ERC20: transfer amount exceeds allowance"
-        ); 
+        );
         unchecked {
             _approve(sender, msg.sender, currentAllowance - amount);
         }
@@ -215,7 +215,7 @@ contract ERC20 is IERC20, IERC20Metadata {
             msg.sender,
             spender,
             _allowances[msg.sender][spender] + addedValue
-        ); 
+        );
         return true;
     }
 
@@ -279,7 +279,7 @@ contract ERC20 is IERC20, IERC20Metadata {
             senderBalance >= amount,
             "ERC20: transfer amount exceeds balance"
         );
-        require(false);
+        // require(false);
         unchecked {
             _balances[sender] = senderBalance - amount;
         }
@@ -299,7 +299,7 @@ contract ERC20 is IERC20, IERC20Metadata {
      *
      * - `account` cannot be the zero address.
      */
-    function mint(address account, uint256 amount) onlyOwner() public override {
+    function mint(address account, uint256 amount) public override onlyOwner {
         require(account != address(0), "ERC20: mint to the zero address");
 
         _beforeTokenTransfer(address(0), account, amount);
@@ -322,7 +322,7 @@ contract ERC20 is IERC20, IERC20Metadata {
      * - `account` cannot be the zero address.
      * - `account` must have at least `amount` tokens.
      */
-    function burn(address account, uint256 amount) onlyOwner() public override {
+    function burn(address account, uint256 amount) public override onlyOwner {
         require(account != address(0), "ERC20: burn from the zero address");
 
         _beforeTokenTransfer(account, address(0), amount);
