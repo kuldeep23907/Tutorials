@@ -1,5 +1,5 @@
 certoraRun ReserveListFixed.sol:ReserveList --verify ReserveList:Reserve.spec \
---solc solc8.7 \
+--solc ~/solc/0.8.12/solc-macos \
 --optimistic_loop \
 --loop_iter 3 \
 
