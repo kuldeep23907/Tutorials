@@ -1,0 +1,32 @@
+``High Priority``
+
+` Valid States:`
+
+UnregisteredContender: _contenders[address].registered == false
+RegisteredContender:  _contenders[address].registered == true
+UnregisteredVoter:  _voters[address].registered == false
+RegisteredVoters:  _voters[address].registered == true
+RegisterVoterNotVoted: _voters[address].votes == false
+RegisterVoterVoted:  _voters[address].votes == true
+
+`High level`: Winner should be the contender with highest votes
+
+`State Transition`: UnregisteredContender to RegisteredContender => registerContender() called
+`State Transition`: UnregisteredVoter to RegisteredVoters => registerVoter() called
+`State Transition`: RegisterVoterNotVoted to RegisterVoterVoted => vote() called
+
+`Variable Transition`: _votes[address].votes is true => vote() called
+`Variable Transition`: winner updated => vote() called
+`Variable Transition`: point of winner monotonous increase => vote() called
+
+
+``Medium Priority``
+`High level`: Black list votes should not vote
+`High level`: Contenders can not vote for themselves
+
+
+``Low Priority``
+
+`Unit test`: registerVoter should register a voter successfully
+`Unit test`: registerContender should register a contender successfully
+

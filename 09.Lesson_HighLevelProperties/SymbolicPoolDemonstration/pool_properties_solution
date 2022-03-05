@@ -1,0 +1,10 @@
+High level:
+1. Flash loan should fail if user not able to return back the amount + premium 
+2. Users should be able to withdraw their amount
+3. User should be able to deposit only the asset allowed
+
+
+Unit test:
+1. sharesToAmount returns correct value
+2. amountToShares returns correct value
+

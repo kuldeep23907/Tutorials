@@ -1,0 +1,16 @@
+`High Priority`:
+
+`Variable transition`: balance of a user gets updated => mint/burn/transfer/transfer_from called
+`Variable transition`: total_supply updated => mint/burn called
+`Variable transition`: allowance updates => allowance/increase allowance/decrease allowance called
+
+`High Level`: Total supply should be equal to the sum of balance of all token holders
+
+`Medium Priority`:
+
+`Low Priority`:
+
+`Unit test`: transfer() should work correctly
+`Unit test`: transferFrom() should work correctly
+`Unit test`: increaseAllowance() should work correctly
+`Unit test`: decreaseAllowance() should work correctly

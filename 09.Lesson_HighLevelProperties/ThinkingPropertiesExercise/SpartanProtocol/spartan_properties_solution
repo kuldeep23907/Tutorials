@@ -1,0 +1,33 @@
+`States:`
+
+BeforeInitialized: owner == 0
+AfterInitialized: owner != 0
+
+`High Priority:`
+
+`valid state`: BeforeInitialized => K = 0, balance[owner] = 0
+
+`valid state`: AfterInitialized => K != 0, balance[owner] != 0
+
+`state transition`: BeforeInitialized to AfterInitialized => init_pool called
+
+`variable transition`: token0Amount or token1Amount increases => add_liquidity called
+
+`variable transition`: token0Amount or token1Amount decreases => remove_liquidity called
+
+`variable transition`: K updated => add_liquidity or remove_liquidity or init_pool
+
+`High level`: Total supply of LP total should be equal to balance of all LP holders
+
+`High level`: Only owner can call the init_pool
+
+`Medium Priority:`
+
+`High level`: Only allowed tokens should be added and remove
+
+`High level`: If swapping token0 amountX gives token1 amountY, then swapping token1 amountY should give token0 amountX
+
+`Low Priority:`
+
+`Unit test`: add_liquidity should add correct amount of token0 and token1 and mint correct LP token
+`Unit test`: remove_liquidity should burn correct amount of LP tokens
