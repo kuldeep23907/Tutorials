@@ -1,0 +1,8 @@
+prize - value should never increase -- variable transition
+end_time - auction should not end before end_time -- state transition
+totalSupply -- always less than max uint256 value
+mint -- should always increase total supply
+balanceOf -- valid state
+getTotalSupply -- valid state
+getAuction -- valid state
+ 

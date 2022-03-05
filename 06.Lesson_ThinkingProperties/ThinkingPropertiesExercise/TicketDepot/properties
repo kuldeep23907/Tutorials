@@ -1,0 +1,22 @@
+states:
+1. EventNotCreated: owner == 0
+2. EventCreated: owner != 0
+3. EventTickerNotOffered: deadline == 0
+4. EventTicketOffered: deadline != 0
+
+High priority:
+1. valid state: EventNotCreated => eventsMap[numEvents].ticketPrice == 0, eventsMap[numEvents].ticketsRemaining == 0
+2. valid state: EventCreated => eventsMap[numEvents].ticketPrice != 0, eventsMap[numEvents].ticketsRemaining != 0
+4. variable transition: EventCreated => eventsMap[numEvents].ticketsRemaining can not be increased.
+5. variable transition: EventCreated => eventsMap[numEvents].ticketPrice can not be tampered.
+6. valid state: EventTickerNotOffered => offerings[offerID].buyer is 0 and offerings[offerID].price is 0
+7. valid state: EventTickerOffered => offerings[offerID].buyer is not 0 and offerings[offerID].price is not 0
+8. variable transition: EventTickerOffered => offerings[offerID].deadline can not be tampered
+9. High level: Offered ticket should only be bought by mentioned buyer and withing the deadline
+
+Medium priority:
+3. variable transition: EventCreated => numEvents should increase
+10. variable transition: eventsMap[numEvents].ticketsRemaining decreases => buyNewTicket() has been called
+
+Low priority:
+

@@ -1,0 +1,14 @@
+High Priority:
+High level: system should have enough ETH to provide fees to depositors
+deposit() => ETH balance increases
+deposit() => total supply of ERC20 increases
+withdraw() => total supply of ERC20 decreases
+collectFees() => ETH balance decreases
+collectFees => accounts[msg.sender].Rewards becomes 0 otherwise user can claim fees more than once
+
+Medium priority:
+accounts[msg.sender].Rewards increases => deposit() or withdraw() called
+variable transition: totalFeesEarnedPerShare should always increase by 1 and only after calling OwnerDoItsJobAndEarnsFeesToItsClients()
+
+Low priority:
+unit test: owner set properly

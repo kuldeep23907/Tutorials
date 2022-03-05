@@ -1,0 +1,17 @@
+states:
+
+defUNINITIALIZED: meeting status is UNINITIALIZED
+defPENDING: meeting status is PENDING
+defSTARTED: meeting status is STARTED
+defCANCELLED: meeting status is CANCELLED
+defENDED: meeting status is ENDED
+
+
+defScheduled: meeting status is PENDING/STARTED/CANCELLED/ENDED
+
+1. valid state: defUNINITIALIZED => getStateById, getStartTimeById, getEndTimeById, getNumOfParticipents returns 0
+2. valid state: defPENDING => getStartTimeById != 0 && getStartTimeById > getEndTimeById
+3. variable transition: defSTARTED => numOfParticipents can only be increased by calling joinMeeting
+4. state transition: defSTARTED => current time is more than start time and less than end time & only startMeeting has been called
+5. state transition: defCANCELLED => only cancelMeeting has been called
+6. state transition: defENDED => only endMeeting has been called
