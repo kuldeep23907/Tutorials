@@ -1,7 +1,7 @@
 methods {
-	getCurrentManager(uint256 fundId) returns (address) envfree
-	getPendingManager(uint256 fundId) returns (address) envfree
-	isActiveManager(address a) returns (bool) envfree
+	getCurrentManager(uint256 fundId) returns(address) envfree
+	getPendingManager(uint256 fundId) returns(address) envfree
+	isActiveManager(address a) returns(bool) envfree
 }
 
 
@@ -18,23 +18,26 @@ rule uniqueManagerAsRule(uint256 fundId1, uint256 fundId2, method f) {
 	// bool active1 = isActiveManager(getCurrentManager(fundId1));			
 	env e;
 	if (f.selector == claimManagement(uint256).selector)
-	{
+		{
 		uint256 id;
 		require id == fundId1 || id == fundId2;
-		claimManagement(e, id);  
+		claimManagement(e, id);
 	}
 	else {
 		calldataarg args;
-		f(e,args);
+		f(e, args);
 	}
-		// verify that the managers are still different 
+	// verify that the managers are still different
+	assert getCurrentManager(fundId1) != 0 => isActiveManager(getCurrentManager(fundId1));
+	assert getCurrentManager(fundId2) != 0 => isActiveManager(getCurrentManager(fundId2));
 	assert getCurrentManager(fundId1) != getCurrentManager(fundId2), "managers not different";
 }
 
 
 /* A version of uniqueManagerAsRule as an invariant */
 invariant uniqueManagerAsInvariant(uint256 fundId1, uint256 fundId2)
-	(fundId1 != fundId2) && 
-	(getCurrentManager(fundId1) != 0 => isActiveManager(getCurrentManager(fundId1))) && (getCurrentManager(fundId2) != 0  => isActiveManager(getCurrentManager(fundId2)))
-	&& (getCurrentManager(fundId1) != getCurrentManager(fundId2))
-	=> getCurrentManager(fundId1) != getCurrentManager(fundId2) 
+	(fundId1 != fundId2) &&
+		(getCurrentManager(fundId1) != 0 => isActiveManager(getCurrentManager(fundId1))) && (getCurrentManager(fundId2) != 0 => isActiveManager(getCurrentManager(fundId2)))
+		&& (getCurrentManager(fundId1) != getCurrentManager(fundId2))
+		=> (getCurrentManager(fundId1) != getCurrentManager(fundId2))
+		
